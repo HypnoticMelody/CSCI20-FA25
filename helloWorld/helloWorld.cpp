@@ -1,8 +1,6 @@
-// cpp code
 #include <cstdio>
 
-int main()
-{
+int main() {
     /* code */
     printf("helloWorld");
     return 0;
