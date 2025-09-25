@@ -1,0 +1,25 @@
+Dogs! Make a class that categorizes different breeds of dogs
+
+okay but like, what if i just
+did something else class related because i decided to do so
+
+
+
+DEFINE DIFFERENCE BETWEEN CLASS AND STRUCT
+- Use case
+- Structure
+- Why we have both
+- Why we need both
+- Do we need them?
+
+STRUCT DEFINITION
+
+
+CLASS DEFINITION
+
+
+DIFFERENCES
+- 
+
+SIMILARITIES
+- 
