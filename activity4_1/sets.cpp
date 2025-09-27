@@ -11,10 +11,11 @@ int main() {
     //print each item
     std::string test;
     
-    for (size_t i = 0; i < a.size(); i++)
+    for (size_t i = 0; i < a.size(); i++) {
         test = a[i];
         std::printf((test + "\n").c_str()); //cant do this buffer stuff in a for loop :c
         std::fflush(stdout); //BUT WAIT, I CAN!!!!
+    }
     //WHY DOES IT STILL NOT WORK???????
 
     // vector testing
@@ -24,8 +25,9 @@ int main() {
     v[2] = "Toodles!";
     
     // print each item
-    for (size_t i = 0; i < v.size(); i++)
+    for (size_t i = 0; i < v.size(); i++) {
         std::printf("%s\n", v[i]); //bad method :c
+    }
 
 
     //inception testing
@@ -35,9 +37,11 @@ int main() {
         {6,7,8}
     };
 
-    for (size_t i = 0; i < matrix.size(); i++)
-        for (size_t j = 0; j < matrix[i].size(); j++)
+    for (size_t i = 0; i < matrix.size(); i++) {
+        for (size_t j = 0; j < matrix[i].size(); j++) {
             std::printf("%i ", matrix[i][j]); //WHY DOES IT WORK INSIDE NESTED FOR LOOPS????????? WHAT EVEN???????????
+        }
+    }
     std::printf("\n");
 
 
@@ -45,12 +49,13 @@ int main() {
     // std::array<std::string, 5> aStrings = {"Let's ", "see ", "if ", "this ", "works!"};
     //
     // std::vector<std::array<std::string, 2>> commandsBuffer = {};
-    // for (size_t i = 0; i < aStrings.size(); i++)
+    // for (size_t i = 0; i < aStrings.size(); i++) {
     //     commandsBuffer.push_back({"std::printf", aStrings[i]});
+    // }
     //
     // std::string doThisPlease = "";
     // std::string withThisPlease = "";
-    // while (!commandsBuffer.empty() && false)
+    // while (!commandsBuffer.empty() && false) {
     //     doThisPlease = commandsBuffer.back()[0];
     //     withThisPlease = commandsBuffer.back()[1];
     //     if (doThisPlease == "std::printf") {
@@ -59,6 +64,7 @@ int main() {
     //         std::printf("dude what");
     //     }
     //     commandsBuffer.pop_back();
+    // }
     // ...I give up. I don't wanna continue trying to make this work.
 
     std::printf("\n===ACTUAL ASSIGNMENT===\n\n");
