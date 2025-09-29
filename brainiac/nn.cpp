@@ -1,76 +1,138 @@
 #include <iostream>
-#include <array>
 #include <vector>
+#include <stdexcept>
+#include <random>
+
+static std::mt19937 seed(13);
+static std::uniform_int_distribution<> distrib(0, 32767);
 
 
 
-class neuron {
-    private: // vars
-        std::vector<double> inputs = {};
+double rand_num(double min, double max) {
+    return (static_cast<double>(distrib(seed)) / 16383.5) - 1;
+}
 
-        std::vector<double> weights = {};
-        double bias;
-    public: // returning methods
-        double out() {
-            double output = bias;
+void vprint(std::vector<double> vec, bool newLine = true) {
+    std::cout << "[";
+    for (size_t i = 0; i < vec.size(); i++) {
+        std::cout << vec[i];
+        if (i != vec.size() - 1) {
+            std::cout << " ";
+        }
+    }
+    std::cout << "]";
+    if (newLine) {
+        std::cout << "\n";
+    }
+}
 
-            for (size_t i = 0; i < inputs.size(); i++) {
-                output += inputs[i] * weights[i];
+struct Matrix {
+    std::vector<std::vector<double>> data;
+
+    Matrix() = default;
+    Matrix(size_t cols, size_t rows, double fill = 0.0) {
+        data.assign(rows, std::vector<double>(cols, fill));
+    }
+    Matrix(std::vector<std::vector<double>> _data) : data(_data) {}
+
+    size_t rcount() const { return data.size(); }
+    size_t ccount() const { return data.empty() ? 0 : data[0].size(); }
+
+    double& operator()(size_t x, size_t y) { return data.at(y).at(x); }
+    const double& operator()(size_t x, size_t y) const { return data.at(y).at(x); }
+
+    void print() const {
+        std::cout << "[\n";
+        for (size_t y = 0; y < rcount(); y++) {
+            std::cout << "  [";
+            for (size_t x = 0; x < ccount(); x++) {
+                std::cout << data[y][x];
+                if (x != ccount() - 1) std::cout << ", ";
             }
-            
-            return output;
+            std::cout << "]";
+            if (y != rcount() - 1) std::cout << ",";
+            std::cout << "\n";
         }
-    public: // void methods
-        void set_inputs(std::vector<double> _inputs) {
-            inputs = _inputs;
-        }
-        void set_weights(std::vector<double> _weights) {
-            weights = _weights;
-        }
-        void set_bias(double _bias) {
-            bias = _bias;
-        }
-};
-
-std::vector<double> dot_prod(std::vector<std::vector<double>> _v1, std::vector<double> _v2) {
-    std::vector<double> output = {};
-
-    std::vector<double> __v1 = {};
-    double subOutput = 0.0;
-
-    for (size_t i = 0; i < _v1.size(); i++) {
-        _v1i = _v1[i];
-        subOutput = 0.0
-        for (size_t j = 0; j < _v1i.size(); j++) {
-            subOutput += _v1i[j] * _v2[i];
-        }
-        output.push_back(subOutput)
+        std::cout << "]\n";
     }
 
-    return output
-}
+    static Matrix identity(size_t n) {
+        Matrix m(n, n, 0.0);
+        for (size_t i = 0; i < n; i++) m(i, i) = 1.0;
+        return m;
+    }
+
+    // Neural-net style multiplication
+    Matrix operator*(const Matrix& weights) const {
+        if (ccount() != weights.ccount()) {
+            throw std::invalid_argument("Matrix dimensions don't match for NN multiplication");
+        }
+
+        Matrix result(weights.rcount(), rcount(), 0.0); // outputs: samples x neurons
+
+        for (size_t x = 0; x < weights.rcount(); x++) {            // rows of inputs (samples)
+            for (size_t y = 0; y < rcount(); y++) { // rows of weights (neurons)
+                double sum = 0.0;
+                for (size_t i = 0; i < ccount(); i++) {    // sum over features
+                    // std::cout << "\nstart\n"; // debug stuff
+                    // std::cout << x << " " << y << "  " << i << "\n"; // debug stuff
+                    sum += (*this)(i, y) * weights(i, x);
+                    // std::cout << "finish\n"; // debug stuff
+                }
+                
+                result(x, y) = sum;
+            }
+        }
+        return result;
+    }
+
+    // Add bias vector (row bias)
+    Matrix operator+(const Matrix& bias) const {
+        if (bias.ccount() != ccount()) {
+            throw std::invalid_argument("Bias vector size must match number of columns");
+        }
+        Matrix result = *this;
+        for (size_t y = 0; y < rcount(); y++) {
+            for (size_t x = 0; x < ccount(); x++) {
+                result(x, y) += bias(x, 0);
+            }
+        }
+        return result;
+    }
+};
+
+class Layer_Dense {
+public:
+    Matrix weights;
+    Matrix biases;
+    Matrix output;
+
+    Layer_Dense(int inputCount, int neuronCount) : weights(inputCount, neuronCount), biases(neuronCount, 1) {
+        for (size_t x = 0; x < inputCount; x++) {
+            for (size_t y = 0; y < neuronCount; y++) {
+                weights(x, y) = rand_num(-1.0, 1.0);
+            }
+        }
+    }
+    void forward(Matrix inputs) {
+        output = inputs * weights + biases;
+    }
+};
+
 
 // 4 -> 3 -> ?
 
 int main() {
-    std::vector<double> inputs = {1.0, 2.0, 3.0, 2.5};
-    std::vector<std::vector<double>> weights = {{0.2, 0.8, -0.5, 1.0}, {0.5, -0.91, 0.26, -0.5}, {-0.26, -0.27, 0.17, 0.87}};
-    std::vector<double> biases = {2, 3, 0.5}
+    Matrix inputs({ {1.0, 2.0, 3.0, 2.5},
+                    {2.0, 5.0, -1.0, 2.0},
+                    {-1.5, 2.7, 3.3, -0.8}});
 
-    neuron n1;
-    n1.set_inputs(inputs);
-    n1.set_weights({0.2, 0.8, -0.5, 1.0});
-    n1.set_bias(2.0);
+    Layer_Dense layer1(4,5);
+    Layer_Dense layer2(5,2);
 
-    neuron n2;
-    n2.set_inputs(inputs);
-    n2.set_weights({0.5, -0.91, 0.26, -0.5});
-    n2.set_bias(3.0);
+    layer1.forward(inputs);
+    layer2.forward(layer1.output);
 
-    neuron n3;
-    n3.set_inputs(inputs);
-    n3.set_weights({-0.26, -0.27, 0.17, 0.87});
-    n3.set_bias(0.5);
-
-    std::cout << n1.out() << " " << std::cout << n2.out() << " " << n3.out();
+    layer1.output.print();
+    layer2.output.print();
 }
