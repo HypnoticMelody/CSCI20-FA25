@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdexcept>
 #include <random>
+#include <algorithm>
 
 static std::mt19937 seed(13);
 static std::uniform_int_distribution<> distrib(0, 32767);
@@ -62,22 +63,19 @@ struct Matrix {
         return m;
     }
 
-    // Neural-net style multiplication
+    // matrix dot prod
     Matrix operator*(const Matrix& weights) const {
         if (ccount() != weights.ccount()) {
             throw std::invalid_argument("Matrix dimensions don't match for NN multiplication");
         }
 
-        Matrix result(weights.rcount(), rcount(), 0.0); // outputs: samples x neurons
+        Matrix result(weights.rcount(), rcount(), 0.0);
 
-        for (size_t x = 0; x < weights.rcount(); x++) {            // rows of inputs (samples)
-            for (size_t y = 0; y < rcount(); y++) { // rows of weights (neurons)
+        for (size_t x = 0; x < weights.rcount(); x++) {
+            for (size_t y = 0; y < rcount(); y++) {
                 double sum = 0.0;
-                for (size_t i = 0; i < ccount(); i++) {    // sum over features
-                    // std::cout << "\nstart\n"; // debug stuff
-                    // std::cout << x << " " << y << "  " << i << "\n"; // debug stuff
+                for (size_t i = 0; i < ccount(); i++) {
                     sum += (*this)(i, y) * weights(i, x);
-                    // std::cout << "finish\n"; // debug stuff
                 }
                 
                 result(x, y) = sum;
@@ -86,7 +84,7 @@ struct Matrix {
         return result;
     }
 
-    // Add bias vector (row bias)
+    // bias add
     Matrix operator+(const Matrix& bias) const {
         if (bias.ccount() != ccount()) {
             throw std::invalid_argument("Bias vector size must match number of columns");
@@ -101,8 +99,7 @@ struct Matrix {
     }
 };
 
-class Layer_Dense {
-public:
+struct Layer_Dense {
     Matrix weights;
     Matrix biases;
     Matrix output;
@@ -114,8 +111,22 @@ public:
             }
         }
     }
-    void forward(Matrix inputs) {
-        output = inputs * weights + biases;
+    Matrix forward(Matrix inputs) {
+        return output = inputs * weights + biases;
+    }
+    Matrix ReLU() {
+        size_t X = output.ccount();
+        size_t Y = output.rcount();
+        Matrix newOutput(X, Y);
+        for (size_t x = 0; x < X; x++) {
+            for (size_t y = 0; y < Y; y++) {
+                newOutput(x, y) = std::max(0.0, output(x, y));
+            }
+        }
+        return newOutput;
+    }
+    void print() {
+        output.print();
     }
 };
 
@@ -123,16 +134,21 @@ public:
 // 4 -> 3 -> ?
 
 int main() {
-    Matrix inputs({ {1.0, 2.0, 3.0, 2.5},
-                    {2.0, 5.0, -1.0, 2.0},
-                    {-1.5, 2.7, 3.3, -0.8}});
+    Matrix inputs({ {0.0, 0.0},
+                    {1.0, 1.0},
+                    {2.0, 2.0},
+                    {3.0, 3.0},
+                    {4.0, 4.0},
+                    {0.0, 0.0},
+                    {1.0, -1.0},
+                    {2.0, -2.0},
+                    {3.0, -3.0},
+                    {4.0, -4.0},});
 
-    Layer_Dense layer1(4,5);
-    Layer_Dense layer2(5,2);
+    Layer_Dense layer1(2,5);
 
     layer1.forward(inputs);
-    layer2.forward(layer1.output);
 
-    layer1.output.print();
-    layer2.output.print();
+    layer1.print();
+    layer1.ReLU().print();
 }
