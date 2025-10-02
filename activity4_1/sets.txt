@@ -1,0 +1,20 @@
+I started with immediately jumping to for loops because,
+even though I saw that I only need to print a single item,
+I wanted to print all of em. Then I was incredibly frustrated
+because for loops are weird and I ended up doing for loops
+with iterators in them instead of whatever mumbo jumbo i
+was trying to do at first. And then I realized the whole
+thing where buffers are a thing, and cout is neat cuz it
+bypasses that but also is NOT neat CUZ it bypasses that.
+Anyways, I then bugged you about like, why all that stuff
+is all wacky and stuff. And like, you answered me, but also
+it's not working still??? I really don't know what to do.
+Anyways, right, before like, I did all that, I made a separate
+portion of my code that has the actual assignment in it
+(except I did all sorts of cool stuff with it anyways cuz
+I'm cool) and that was like, super simple. Especially since
+I'd already figured out the .c_str() function that turns a
+string into the thing printf() likes or whatever. Anyways,
+the moral of the story is that printf() is complicated and
+I don't understand how to make buffer stuff do what I want
+it to do.
