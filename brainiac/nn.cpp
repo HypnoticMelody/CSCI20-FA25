@@ -131,24 +131,35 @@ struct Layer_Dense {
 };
 
 
-// 4 -> 3 -> ?
+// if x^2 > y then output 1, if x^2 < y then output -1, if x^2 = y then output 0
 
 int main() {
-    Matrix inputs({ {0.0, 0.0},
-                    {1.0, 1.0},
-                    {2.0, 2.0},
-                    {3.0, 3.0},
-                    {4.0, 4.0},
-                    {0.0, 0.0},
-                    {1.0, -1.0},
-                    {2.0, -2.0},
-                    {3.0, -3.0},
-                    {4.0, -4.0},});
+    Matrix inputs({
+        {-2.0, -2.0},
+        {-1.0, -1.0},
+        {-.5, -.5},
+        {-.25, -.25},
+        {0.0, 0.0},
+        {.25, .25},
+        {.5, .5},
+        {1.0, 1.0},
+        {2.0, 2.0},
+    });
+    Matrix expecteOutputs({
+        {1},
+        {1},
+        {1},
+        {1},
+        {0},
+        {-1},
+        {-1},
+        {0},
+        {1},
+    })
 
     Layer_Dense layer1(2,5);
 
     layer1.forward(inputs);
 
-    layer1.print();
     layer1.ReLU().print();
 }
