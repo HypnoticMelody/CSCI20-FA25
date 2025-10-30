@@ -131,7 +131,13 @@ struct Layer_Dense {
 };
 
 
-// if x^2 > y then output 1, if x^2 < y then output -1, if x^2 = y then output 0
+// two outputs:
+    // if x^2 > y then output 1, if x^2 < y then output -1, if x^2 = y then output 0
+    // if y^2 > x then output 1, if y^2 < x then output -1, if y^2 = x then output 0
+
+int expectedFunction(int x, int y) {
+
+}
 
 int main() {
     Matrix inputs({
@@ -145,7 +151,11 @@ int main() {
         {1.0, 1.0},
         {2.0, 2.0},
     });
-    Matrix expecteOutputs({
+    Matrix expectedOutputs;
+    for (i = 0; i < 8; i++) {
+        
+    }
+    Matrix expectedOutputs({
         {1},
         {1},
         {1},
