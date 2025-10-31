@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <array>
 #include <stdexcept>
 #include <random>
 #include <algorithm>
@@ -134,9 +135,21 @@ struct Layer_Dense {
 // two outputs:
     // if x^2 > y then output 1, if x^2 < y then output -1, if x^2 = y then output 0
     // if y^2 > x then output 1, if y^2 < x then output -1, if y^2 = x then output 0
+std::array<double, 2> expectedFunction(double x, double y) {
+    std::array<double, 2> output = {0, 0};
+    if (x*x > y) {
+        output[0] = 1;
+    } else if (x*x < y) {
+        output[0] = -1;
+    }
 
-int expectedFunction(int x, int y) {
+    if (y*y > x) {
+        output[1] = 1;
+    } else if (y*y < x) {
+        output[1] = -1;
+    }
 
+    return output;
 }
 
 int main() {
@@ -151,25 +164,21 @@ int main() {
         {1.0, 1.0},
         {2.0, 2.0},
     });
-    Matrix expectedOutputs;
-    for (i = 0; i < 8; i++) {
-        
+
+    Matrix expectedOutputs(inputs.ccount(), inputs.rcount());
+
+    for (size_t i = 0; i < inputs.rcount(); i++) {
+        std::array<double, 2> outputs = expectedFunction(inputs(0,i),inputs(1,i));
+
+        expectedOutputs(0,i) = outputs[0];
+
+        expectedOutputs(1,i) = outputs[1];
     }
-    Matrix expectedOutputs({
-        {1},
-        {1},
-        {1},
-        {1},
-        {0},
-        {-1},
-        {-1},
-        {0},
-        {1},
-    })
+    expectedOutputs.print();
 
-    Layer_Dense layer1(2,5);
+    // Layer_Dense layer1(2,5);
 
-    layer1.forward(inputs);
+    // layer1.forward(inputs);
 
-    layer1.ReLU().print();
+    // layer1.ReLU().print();
 }
