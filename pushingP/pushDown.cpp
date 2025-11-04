@@ -1,32 +1,23 @@
 #include <iostream>
-#include <array>
+#include <vector>
+
+
 
 struct Stack {
-    int index = 0;
-    size_t size = 5;
-    std::array<int, 5> data = {}; // how do you make the size able to change on construction
-    
-
-
+    size_t size = 0;
+    std::vector<int> data = {};
 
     void push(int e) {
-        index += 1;
-        for (size_t i = 0; i < size; i++) {
-            data[size - i] = data[size - i - 1];
-        }
-        data[0] = e;
+        data.push_back(e);
+        size = size + 1;
+        return;
     }
 
     int pop() {
-        if (index >= 0) {
-            index -= 1;
-            int value = data[0];
-            for (size_t i = 1; i < size; i++) {
-                data[i - 1] = data[i];
-            }
-            data[size] = 0;
-            return value;
-        }
+        size = size - 1;
+        int value = data[size];
+        data.pop_back();
+        return value;
     }
 
     void print() {
@@ -35,6 +26,7 @@ struct Stack {
             std::cout << data[i] << ", ";
         }
         std::cout << "}\n";
+        return;
     }
 };
 
@@ -44,8 +36,9 @@ int main() {
     s.push(6);
 
     s.print();
-
     std::cout << s.pop() << "\n";
+    s.print();
     std::cout << s.pop() << "\n";
+    s.print();
     return 0;
 }
