@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-// IT'S EZPRINT TIME!!! WOOO!!! (it can handle any dimension vector, along with whatever type that can be normally printed by cout!)
+// Meet ezPrint! They can handle vectors of any dimension, along with any type that can be normally printed by std::cout! They are very good at enraging those who hate std::cout.
 template <typename T>
 void ezPrint(T data) {
     std::cout << data;
@@ -20,11 +20,12 @@ void ezPrint(std::vector<T> data, bool spacing = false) {
 }
 // END OF EZPRINT TIME!!!
 
+// Meet the stack struct! She can handle anything you put inside her~ ...wait, that's uh. Forget I said that.
 template <typename T>
 struct Stack {
     size_t size = 0;
     std::vector<T> data = {};
-
+    
     void push(T e) {
         data.push_back(e);
         size = size + 1;
@@ -32,7 +33,7 @@ struct Stack {
         return;
     }
 
-    int pop() {
+    T pop() {
         size = size - 1;
         int value = data[size];
         data.pop_back();
@@ -46,6 +47,7 @@ struct Stack {
         return;
     }
 };
+// End of stack struct...
 
 int main() {
     Stack<int> intStack;
