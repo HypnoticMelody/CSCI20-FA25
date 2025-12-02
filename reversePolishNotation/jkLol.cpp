@@ -136,16 +136,16 @@ int main() {
     RPNStack RPN;
 
     
-    RPN.pushInt(2);
     RPN.pushInt(1);
     RPN.pushInt(1);
     RPN.pushOp(Operation::ADD);
+    RPN.pushInt(2);
     RPN.pushOp(Operation::ADD);
     RPN.pushInt(5);
     RPN.pushOp(Operation::MULT);
 
     RPN.print();
-    RPN.collapse();
+    RPN.collapse(); // (((1+1)+2)*5)
     RPN.print();
 
 
