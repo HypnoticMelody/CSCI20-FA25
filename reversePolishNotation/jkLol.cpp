@@ -133,7 +133,6 @@ struct RPNStack {
 int main() {
     RPNStack RPN;
 
-    
     RPN.pushInt(1);
     RPN.pushInt(1);
     RPN.pushOp(Operation::ADD);
