@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include "jkLol.hpp"
 
 
 enum class Operation {NUM, ADD, SUB, MULT, DIV, MOD};
