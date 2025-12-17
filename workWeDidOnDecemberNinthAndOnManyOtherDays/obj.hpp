@@ -35,7 +35,8 @@ private:
         int num;
         bool isOp;
         
-        void set_num(int);
+        Dicho(int);
+        Dicho(char);
     };
     
     std::stack<Dicho> st;
@@ -43,4 +44,5 @@ private:
 public:
     Calc();
     Dicho collapse();
+    void set();
 };

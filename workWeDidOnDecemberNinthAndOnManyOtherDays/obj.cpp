@@ -2,21 +2,14 @@
 
 
 int main() {
+    Calc object;
+
+
     return 0;
 }
 
 
-Calc::Dicho::set_num(int _num) {
-    num = _num;
-    isOp = false;
-}
-
-Calc::Dicho::set_op(int _num) {
-    num = _num;
-    isOp = true;
-}
-
-Calc::collapse() {
+Dicho Calc::collapse() {
     Dicho d0 = st.pop();
 
     Dicho d1 = st.pop();
@@ -48,4 +41,46 @@ Calc::collapse() {
         break;
     }
     st.push(output);
+
+    return;
+}
+
+Calc::more(int num) {
+    
+}
+
+Calc::more(char op) {
+    
+}
+
+
+Calc::Dicho(int _num) {
+    num = _num;
+    isOp = false;
+}
+
+Calc::Dicho(char op) {
+    switch (op) {
+    case ("+"):
+        num = 0;
+        break;
+    case ("-"):
+        num = 0;
+        break;
+    case ("*"):
+        num = 0;
+        break;
+    case ("/"):
+        num = 0;
+        break;
+    case ("%"):
+        num = 0;
+        break;
+    }
+    isOp = true;
+}
+
+Calc::Dicho::set_op(int _num) {
+    num = _num;
+    isOp = true;
 }
