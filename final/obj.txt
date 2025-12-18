@@ -1,0 +1,11 @@
+Alrighty so my biggest thought for this assignment was "how can I make the scripts I wrote for the last calculator assignment be better?"
+So what I ended up doing is basically copying what I did over there! Except I used the c++ standard stack instead of making one myself.
+I tried following along for a bit but MY STARS, the little "problem: blah blah blah | solved" portion was SO SLOW and I was bored as all getout.
+So I played on my phone for a bit for the first day lol. I did do a bunch of programming though dw- I payed attention to you again when you got to the part where we were making the Calc class.
+I knew I was probly gonna use the same "collapse" strategy I used for the last one, so I think I started with that.
+I basically just copied over the collapse function for the other one, but I edited it a bit so that it was better.
+One of those changes was to seperate it into two! That made it so that there was a private part of it which outputted the Dicho so it could do recursion, and then there was a public part so that it could output void and be nice and pretty.
+Used the switch statements again cuz they're really cool! I like switch statements.
+I experimented with making the Dicho struct have its own functions to do stuff, but it honestly was just too much of a hassle. I decided to just have it be a lil lunchbox like everybody else.
+Oh!!!!!! And you know that comment I made last time??? Where I said something like "bleh bleh bleh I shoulda used a bool instead of an enum bleh bleh bleh"??? I did that this time!!! :D
+Uhhh... Oh, and I made the public functions have comments above them that say what they do so that the user can (if their IDE does it) see the description of those functions when they use em.

@@ -29,20 +29,22 @@ We need an encoding for the numbers and operations of our calculator, lets use a
 im just gonna play on my phone now lol
 */
 
+// Calculator class that utilizes reverse polish notation.
 class Calc {
 private:
     struct Dicho {
         int num;
         bool isOp;
-        
-        Dicho(int);
-        Dicho(char);
     };
-    
+
     std::stack<Dicho> st;
+
+    void push(Dicho);
     
+    Dicho inner_collapse();
 public:
-    Calc();
-    Dicho collapse();
-    void set();
+    void collapse();
+    void push_num(int);
+    void push_op(int);
+    int pop_top();
 };
